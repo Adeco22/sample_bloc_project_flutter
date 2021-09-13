@@ -1,9 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sample_bloc/blocs/sample_bloc/sample_bloc_event.dart';
-import 'package:sample_bloc/blocs/sample_bloc/sample_bloc_state.dart';
 import 'package:sample_bloc/services/sample_app_repository.dart';
+
+import 'sample_bloc_event.dart';
+import 'sample_bloc_state.dart';
+
+export 'sample_bloc_event.dart';
+export 'sample_bloc_state.dart';
 
 // Includes
 //
@@ -12,13 +16,13 @@ import 'package:sample_bloc/services/sample_app_repository.dart';
 // Created at - 9/13/21 11:55 AM
 
 ///
-class SampleBloc extends Bloc<SampleBlocEvent, SampleBlocState> {
-  SampleBloc(this._sampleAppRepository) : super(const InitialState());
+class SampleLoginBloc extends Bloc<SampleBlocEvent, SampleLoginState> {
+  SampleLoginBloc(this._sampleAppRepository) : super(const InitialState());
 
   final SampleAppRepository _sampleAppRepository;
 
   @override
-  Stream<SampleBlocState> mapEventToState(SampleBlocEvent event) async* {
+  Stream<SampleLoginState> mapEventToState(SampleBlocEvent event) async* {
     // Initial Event
     if (event is InitialEvent) {
       yield const InitialState();
@@ -32,9 +36,9 @@ class SampleBloc extends Bloc<SampleBlocEvent, SampleBlocState> {
           event.usernameInput, event.passwordInput);
 
       if (isLoggedIn) {
-        yield UserLoggedInSuccessState('');
+        yield UserLoggedInSuccessState('Sample User');
       } else {
-        yield UserLoggedInErrorState('');
+        yield UserLoggedInErrorState('Invalid username/password!');
       }
     }
 

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sample_bloc/blocs/sample_bloc/sample_bloc.dart';
-import 'package:sample_bloc/blocs/sample_bloc/sample_bloc_event.dart';
-import 'package:sample_bloc/blocs/sample_bloc/sample_bloc_state.dart';
+import 'package:sample_bloc/blocs/sample_login_bloc/sample_login_bloc.dart';
 
 // Includes
 //
@@ -12,28 +10,28 @@ import 'package:sample_bloc/blocs/sample_bloc/sample_bloc_state.dart';
 // Created at - 9/13/21 11:43 AM
 
 ///
-class SampleBlocScreen extends StatefulWidget {
-  const SampleBlocScreen({Key? key}) : super(key: key);
+class SampleLoginScreen extends StatefulWidget {
+  const SampleLoginScreen({Key? key}) : super(key: key);
 
   @override
-  _SampleBlocScreenState createState() => _SampleBlocScreenState();
+  _SampleLoginScreenState createState() => _SampleLoginScreenState();
 }
 
-class _SampleBlocScreenState extends State<SampleBlocScreen> {
-  late SampleBloc bloc;
+class _SampleLoginScreenState extends State<SampleLoginScreen> {
+  late SampleLoginBloc bloc;
 
   @override
   void initState() {
     super.initState();
 
-    bloc = BlocProvider.of<SampleBloc>(context);
+    bloc = BlocProvider.of<SampleLoginBloc>(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      child: BlocListener<SampleBloc, SampleBlocState>(
-        listener: (BuildContext context, SampleBlocState state) {
+      child: BlocListener<SampleLoginBloc, SampleLoginState>(
+        listener: (BuildContext context, SampleLoginState state) {
           // If user logged in successfully, push to another page
           if (state is UserLoggedInSuccessState) {
             Navigator.of(context).pushNamedAndRemoveUntil(
@@ -60,14 +58,18 @@ class _SampleBlocScreenState extends State<SampleBlocScreen> {
           }
         },
         child: Scaffold(
-          body: Column(
-            children: <Widget>[
-              // Username
+          body: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                // Username
 
-              // Password
+                // Password
 
-              _buildLoginButton(),
-            ],
+                _buildLoginButton(),
+              ],
+            ),
           ),
         ),
       ),
@@ -80,12 +82,15 @@ class _SampleBlocScreenState extends State<SampleBlocScreen> {
   }
 
   Widget _buildLoginButton() {
-    return BlocBuilder<SampleBloc, SampleBlocState>(
-      builder: (BuildContext context, SampleBlocState state) {
+    // dynamic widget used for swapping widgets when state is changed
+    return BlocBuilder<SampleLoginBloc, SampleLoginState>(
+      builder: (BuildContext context, SampleLoginState state) {
+        // If loading, return loading widget
         if (state is LoadingState) {
           return CircularProgressIndicator();
         }
 
+        // Else return login button
         return TextButton(
           onPressed: () {
             bloc.add(LoginButtonClickedEvent('', '', false));

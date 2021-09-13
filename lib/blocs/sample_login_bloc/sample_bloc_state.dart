@@ -1,39 +1,40 @@
+import 'package:equatable/equatable.dart';
+
 // Includes
 //
 // Author - anthonydeco
 //
 // Created at - 9/13/21 11:49 AM
 
-import 'package:equatable/equatable.dart';
-
 ///
-abstract class SampleBlocState extends Equatable {
-  const SampleBlocState();
+abstract class SampleLoginState extends Equatable {
+  const SampleLoginState();
 
   @override
   List<Object> get props => [];
 }
 
-class InitialState extends SampleBlocState {
+class InitialState extends SampleLoginState {
   const InitialState();
 }
 
-class LoadingState extends SampleBlocState {
+class LoadingState extends SampleLoginState {
   const LoadingState();
 }
 
-class UserLoggedInSuccessState extends SampleBlocState {
+class UserLoggedInSuccessState extends SampleLoginState {
   const UserLoggedInSuccessState(
     this.sessionToken,
   );
 
   final String sessionToken;
 
+  // Always add all equatable data
   @override
   List<Object> get props => [sessionToken];
 }
 
-class UserLoggedInErrorState extends SampleBlocState {
+class UserLoggedInErrorState extends SampleLoginState {
   const UserLoggedInErrorState(
     this.error,
   );
