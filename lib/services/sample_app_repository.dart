@@ -1,3 +1,5 @@
+import 'package:mocktail/mocktail.dart';
+
 // Includes
 //
 // Author - anthonydeco
@@ -8,3 +10,5 @@
 abstract class SampleAppRepository {
   Future<bool> login(String username, String password);
 }
+
+class MockSampleAppRepository extends Mock implements SampleAppRepository {}
